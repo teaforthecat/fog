@@ -10,8 +10,8 @@ module Fog
 
         protected
 
-        def get_raw_network(name, datacenter_name, distributedswitch_name=nil)
-          finder = choose_finder(name, distributedswitch_name)
+        def get_raw_network(name, datacenter_name, distributedswitch=nil)
+          finder = choose_finder(name, distributedswitch)
           networks = get_all_raw_networks(datacenter_name)
           networks.find{ |n| finder.(n) }
         end
@@ -31,13 +31,13 @@ module Fog
                                 }).view
         end
 
-        def choose_finder name, distributedswitch_name
-          case distributedswitch_name
+        def choose_finder name, distributedswitch
+          case distributedswitch
           when String
             # only the one will do
             ->(n){ (n.name == name ) &&
                 (n.class.to_s == "DistributedVirtualPortgroup") &&
-                (n.config.distributedVirtualSwitch.name == distributedswitch_name)
+                (n.config.distributedVirtualSwitch.name == distributedswitch)
             }
           when true
             # the first distributed virtual switch will do - selected by network - gives control to vsphere
