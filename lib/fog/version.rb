@@ -1,3 +1,3 @@
 module Fog
-  VERSION = '1.21.100'
+  VERSION = '1.21.101'
 end
